@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Коммунальная "считалка"</title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Коммунальная "считалка"<img id="bulb" src="images/bulb11.png" alt="эл/лампочка"></h1>
+<p class="text">тарифы можно изменить</p>
+    <div class="hot">
+        <label  for="currentHot"> Текущее показание горячей воды:
+            <input type="number" id="currentHot" value="" name="count">
+        </label>
+        <label for="prevHot">Предыдущее показание:
+            <input type="number" id="prevHot" value="" name="count">
+        </label>
+        <label for="rateHot">Тариф:
+            <input type="number" id="rateHot" value="141.52" name="count">
+        </label>
+        <div id="sumHot">Горячая:  руб.</div>  
+    </div>
+
+    <div class="cold">
+        <label for="currentCold"> Текущее показание холодной воды:
+            <input type="number" id="currentCold" value="" name="count">
+        </label>
+        <label for="prevCold">Предыдущее показание: 
+            <input type="number" id="prevCold" value="" name="count">
+        </label>
+        <label for="rateCold">Тариф:
+            <input type="number" id="rateCold" value="23.95" name="count">
+        </label>
+        <div id="sumCold">Холодная:  руб.</div>
+    </div>
+
+    <div class="runoff">
+        <label for="runoffHot"> Стоки горячей воды:
+            <input type="number" id="runoffHot" value="" name="count">
+        </label>
+        <label for="runoffCold">Стоки холодной воды: 
+            <input type="number" id="runoffCold" value="" name="count">
+        </label>
+        <label for="rateRunoff">Тариф:
+            <input type="number" id="rateRunoff" value="19.39" name="count">
+        </label>
+        <div id="sumRunoff">Стоки:  руб.</div>   
+    </div>
+
+    <div class="light">
+        <label for="currentLight"> Текущее показание эл/энергии:
+            <input type="number" id="currentLight" value="" name="count">
+        </label>
+        <label for="prevLight">Предыдущее показание: 
+            <input type="number" id="prevLight" value="" name="count">
+        </label>
+        <label for="rateLight">Тариф:
+            <input type="number" id="rateLight" value="3.36" name="count">
+        </label> 
+        <div id="sumLight">Эл/энергия:  руб.</div>    
+    </div>
+
+    <div class="gas">
+        <label for="currentGas"> Текущее показание газа:
+            <input type="number" id="currentGas" value="0" name="count">
+        </label>
+        <label for="prevGas">Предыдущее показание: 
+            <input type="number" id="prevGas" value="0" name="count">
+        </label>
+        <label for="rateGas">Тариф:
+            <input type="number" id="rateGas" value="287.22" name="count">
+        </label> 
+        <div id="sumGas">Газ:  руб.</div>    
+    </div>
+
+    <div class="btn">
+    <button id="btn" type="button">Считать итого:</button>
+    <div id="sum"></div>
+    </div>   
+
+
+    <script>
+
+        function turnOn(){
+            bulb.src = "images/bulb11.png";
+            setTimeout(() => {
+                bulb.src = "images/bulb00.png";
+            }, 1500);
+        }
+        setInterval(turnOn, 2500);    
+
+
+    let sum1, sum2, sum3, sum4, sum5, sum6;
+    const countElements = document.querySelectorAll('[name="count"]'); 
+
+//для каждого элемента input с кол-вом нужно повесить событие на изменение change, 
+//по которому значения в input должны меняться на введенные значения
+
+    countElements.forEach(elem => {
+        elem.addEventListener ("change", function() {
+
+        //Горячая вода
+        if (((Number(currentHot.value) > 0 && parseInt(prevHot.value) >= 0) && (Number(currentHot.value) > Number(prevHot.value))) || (currentHot.value == "" && prevHot.value == "")){    
+        sum1 = ((currentHot.value - prevHot.value) * rateHot.value).toFixed(2);
+        sumHot.innerHTML = `Горячая: <h class="result">${sum1}</h>  руб.`;
+        } else {
+            sum1 = 0;
+            sumHot.innerHTML = `Горячая: <h class="result">${sum1.toFixed(2)}</h>  руб.`;
+        };
+
+        //холодная вода
+        if (((currentCold.value > 0 && parseInt(prevCold.value) >= 0) && (Number(currentCold.value) > Number(prevCold.value))) || (currentCold.value == "" && prevCold.value == "")){
+        sum2 = ((currentCold.value - prevCold.value) * rateCold.value).toFixed(2);
+        sumCold.innerHTML = `Холодная: <h class="result">${sum2}</h>  руб.`;
+        } else {
+            sum2 = 0;
+            sumCold.innerHTML = `Холодная: <h class="result">${sum2.toFixed(2)}</h>  руб.`;
+        };
+
+        //Стоки
+        if ((currentHot.value > 0 && parseInt(prevHot.value) >= 0) && (Number(currentHot.value) > Number(prevHot.value))) {
+        runoffHot.value = (currentHot.value - prevHot.value).toFixed(3);
+        } else {
+            runoffHot.value = "";
+        };  
+
+        if ((currentCold.value > 0 && parseInt(prevCold.value) >= 0) && (Number(currentCold.value) > Number(prevCold.value))) {
+        runoffCold.value = (currentCold.value - prevCold.value).toFixed(3);
+        } else {
+            runoffCold.value = ""
+        };
+
+        sum3 = ((Number(runoffHot.value) + Number(runoffCold.value)) * rateRunoff.value).toFixed(2);
+        sumRunoff.innerHTML = `Стоки: <h class="result">${sum3}</h>  руб.`;
+       
+        //Эл/энергия
+        if(((currentLight.value > 0 && parseInt(prevLight.value) >= 0) && (Number(currentLight.value) > Number(prevLight.value))) || (currentLight.value == "" && prevLight.value == "")){
+        sum4 = ((currentLight.value - prevLight.value) * rateLight.value).toFixed(2);
+        sumLight.innerHTML = `Эл/энергия: <h class="result">${sum4}</h>  руб.`;
+        } else {
+            sum4 = 0;
+            sumLight.innerHTML = `Эл/энергия: <h class="result">${sum4.toFixed(2)}</h>  руб.`;
+        };
+
+        //Газ
+        if(((currentGas.value > 0 && parseInt(prevGas.value) >= 0) && (Number(currentGas.value) > Number(prevGas.value))) || (currentGas.value == "" && prevGas.value == "")){
+        sum5 = ((currentGas.value - prevGas.value) * rateGas.value).toFixed(2);
+        sumGas.innerHTML = `Газ: <h class="result">${sum5}</h>  руб.`;
+        } else {
+            sum5 = 0;
+            sumGas.innerHTML = `Газ: <h class="result">${sum5.toFixed(2)}</h>  руб.`;
+        };
+
+        //Общая сумма
+        sum6 = (Number(sum1) + Number(sum2) + Number(sum3) + Number(sum4) + + Number(sum5)).toFixed(2);
+        sum.innerHTML = `${sum6}  руб.`;
+    })
+})
+
+btn.onclick = () => {
+    sum.style.opacity = '1';
+
+    if (Number(currentHot.value) < 0 || Number(prevHot.value) < 0 || Number(currentCold.value) < 0 || Number(prevCold.value) < 0 || 
+    Number(currentLight.value) < 0 || Number(prevLight.value) < 0 || Number(currentGas.value) < 0 || Number(prevGas.value) < 0){
+        alert('Показание не может быть отрицательным!');
+    }
+    else if (Number(currentHot.value) < Number(prevHot.value)){
+        alert("Текущее показание горячей воды не может быть меньше предыдущего!");
+    }
+    else if (Number(currentCold.value) < Number(prevCold.value)){
+        alert("Текущее показание холодной воды не может быть меньше предыдущего!");
+    }
+    else if (Number(currentLight.value) < Number(prevLight.value)){
+        alert("Текущее показание эл/энергии не может быть меньше предыдущего!");
+    }
+    else if (Number(currentGas.value) < Number(prevGas.value)){
+        alert("Текущее показание газа не может быть меньше предыдущего!");
+    }
+}
+
+   </script>
+</body>
+</html>
