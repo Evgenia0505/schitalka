@@ -10,7 +10,8 @@
 <body>
 
 <h1>Коммунальная "считалка"<img id="bulb" src="images/bulb11.png" alt="эл/лампочка"></h1>
-<p class="text">тарифы можно изменить</p>
+<p class="text">тарифы можно изменять</p>
+
     <div class="hot">
         <label  for="currentHot"> Текущее показание горячей воды:
             <input type="number" id="currentHot" value="" name="count">
@@ -77,47 +78,52 @@
     </div>
 
     <div class="btn">
-    <button id="btn" type="button">Считать итого:</button>
-    <div id="sum"></div>
+        <button id="btn" type="button">Считать итого:</button>
+        <div id="sum"></div>
     </div>   
 
-
-    <script>
-
-        function turnOn(){
-            bulb.src = "images/bulb11.png";
-            setTimeout(() => {
-                bulb.src = "images/bulb00.png";
-            }, 1500);
-        }
-        setInterval(turnOn, 2500);    
-
-
+  <script>
+    const bulb = document.getElementById("bulb"),
+          countElements = document.querySelectorAll('[name="count"]'),
+          sumHot = document.getElementById("sumHot"),
+          sumCold = document.getElementById("sumCold"),
+          sumRunoff = document.getElementById("sumRunoff"),
+          sumLight = document.getElementById("sumLight"),
+          sumGas = document.getElementById("sumGas"),
+          btn = document.getElementById("btn"),
+          sum = document.getElementById("sum");
     let sum1, sum2, sum3, sum4, sum5, sum6;
-    const countElements = document.querySelectorAll('[name="count"]'); 
 
-//для каждого элемента input с кол-вом нужно повесить событие на изменение change, 
-//по которому значения в input должны меняться на введенные значения
+    // мигающая лампочка
+    function turnOn(){
+      bulb.src = "images/bulb11.png";
+      setTimeout(() => {
+          bulb.src = "images/bulb00.png";
+      }, 1500);
+    }
+    setInterval(turnOn, 2500);    
 
+    // для каждого элемента input нужно повесить событие на изменение change, 
+    // по которому должны считаться локальные суммы
     countElements.forEach(elem => {
-        elem.addEventListener ("change", function() {
+      elem.addEventListener ("change", function() {
 
         //Горячая вода
         if (((Number(currentHot.value) > 0 && parseInt(prevHot.value) >= 0) && (Number(currentHot.value) > Number(prevHot.value))) || (currentHot.value == "" && prevHot.value == "")){    
         sum1 = ((currentHot.value - prevHot.value) * rateHot.value).toFixed(2);
-        sumHot.innerHTML = `Горячая: <h class="result">${sum1}</h>  руб.`;
+        sumHot.innerHTML = `Горячая: <span class="result">${sum1}</span>  руб.`;
         } else {
             sum1 = 0;
-            sumHot.innerHTML = `Горячая: <h class="result">${sum1.toFixed(2)}</h>  руб.`;
+            sumHot.innerHTML = `Горячая: <span class="result">${sum1.toFixed(2)}</span>  руб.`;
         };
 
         //холодная вода
         if (((currentCold.value > 0 && parseInt(prevCold.value) >= 0) && (Number(currentCold.value) > Number(prevCold.value))) || (currentCold.value == "" && prevCold.value == "")){
         sum2 = ((currentCold.value - prevCold.value) * rateCold.value).toFixed(2);
-        sumCold.innerHTML = `Холодная: <h class="result">${sum2}</h>  руб.`;
+        sumCold.innerHTML = `Холодная: <span class="result">${sum2}</span>  руб.`;
         } else {
             sum2 = 0;
-            sumCold.innerHTML = `Холодная: <h class="result">${sum2.toFixed(2)}</h>  руб.`;
+            sumCold.innerHTML = `Холодная: <span class="result">${sum2.toFixed(2)}</span>  руб.`;
         };
 
         //Стоки
@@ -134,53 +140,53 @@
         };
 
         sum3 = ((Number(runoffHot.value) + Number(runoffCold.value)) * rateRunoff.value).toFixed(2);
-        sumRunoff.innerHTML = `Стоки: <h class="result">${sum3}</h>  руб.`;
-       
+        sumRunoff.innerHTML = `Стоки: <span class="result">${sum3}</span>  руб.`;
+        
         //Эл/энергия
         if(((currentLight.value > 0 && parseInt(prevLight.value) >= 0) && (Number(currentLight.value) > Number(prevLight.value))) || (currentLight.value == "" && prevLight.value == "")){
         sum4 = ((currentLight.value - prevLight.value) * rateLight.value).toFixed(2);
-        sumLight.innerHTML = `Эл/энергия: <h class="result">${sum4}</h>  руб.`;
+        sumLight.innerHTML = `Эл/энергия: <span class="result">${sum4}</span>  руб.`;
         } else {
             sum4 = 0;
-            sumLight.innerHTML = `Эл/энергия: <h class="result">${sum4.toFixed(2)}</h>  руб.`;
+            sumLight.innerHTML = `Эл/энергия: <span class="result">${sum4.toFixed(2)}</span>  руб.`;
         };
 
         //Газ
         if(((currentGas.value > 0 && parseInt(prevGas.value) >= 0) && (Number(currentGas.value) > Number(prevGas.value))) || (currentGas.value == "" && prevGas.value == "")){
         sum5 = ((currentGas.value - prevGas.value) * rateGas.value).toFixed(2);
-        sumGas.innerHTML = `Газ: <h class="result">${sum5}</h>  руб.`;
+        sumGas.innerHTML = `Газ: <span class="result">${sum5}</span>  руб.`;
         } else {
             sum5 = 0;
-            sumGas.innerHTML = `Газ: <h class="result">${sum5.toFixed(2)}</h>  руб.`;
+            sumGas.innerHTML = `Газ: <span class="result">${sum5.toFixed(2)}</span>  руб.`;
         };
 
         //Общая сумма
-        sum6 = (Number(sum1) + Number(sum2) + Number(sum3) + Number(sum4) + + Number(sum5)).toFixed(2);
-        sum.innerHTML = `${sum6}  руб.`;
+        sum6 = (Number(sum1) + Number(sum2) + Number(sum3) + Number(sum4) + Number(sum5)).toFixed(2);
+        sum.innerHTML = `${sum6} р.`;
+      })
     })
-})
 
-btn.onclick = () => {
-    sum.style.opacity = '1';
+    btn.onclick = () => {
+      sum.style.display = 'block';
 
-    if (Number(currentHot.value) < 0 || Number(prevHot.value) < 0 || Number(currentCold.value) < 0 || Number(prevCold.value) < 0 || 
-    Number(currentLight.value) < 0 || Number(prevLight.value) < 0 || Number(currentGas.value) < 0 || Number(prevGas.value) < 0){
-        alert('Показание не может быть отрицательным!');
+      if (Number(currentHot.value) < 0 || Number(prevHot.value) < 0 || Number(currentCold.value) < 0 || Number(prevCold.value) < 0 || 
+      Number(currentLight.value) < 0 || Number(prevLight.value) < 0 || Number(currentGas.value) < 0 || Number(prevGas.value) < 0){
+          alert('Показание не может быть отрицательным!');
+      }
+      else if (Number(currentHot.value) < Number(prevHot.value)){
+          alert("Текущее показание горячей воды не может быть меньше предыдущего!");
+      }
+      else if (Number(currentCold.value) < Number(prevCold.value)){
+          alert("Текущее показание холодной воды не может быть меньше предыдущего!");
+      }
+      else if (Number(currentLight.value) < Number(prevLight.value)){
+          alert("Текущее показание эл/энергии не может быть меньше предыдущего!");
+      }
+      else if (Number(currentGas.value) < Number(prevGas.value)){
+          alert("Текущее показание газа не может быть меньше предыдущего!");
+      }
     }
-    else if (Number(currentHot.value) < Number(prevHot.value)){
-        alert("Текущее показание горячей воды не может быть меньше предыдущего!");
-    }
-    else if (Number(currentCold.value) < Number(prevCold.value)){
-        alert("Текущее показание холодной воды не может быть меньше предыдущего!");
-    }
-    else if (Number(currentLight.value) < Number(prevLight.value)){
-        alert("Текущее показание эл/энергии не может быть меньше предыдущего!");
-    }
-    else if (Number(currentGas.value) < Number(prevGas.value)){
-        alert("Текущее показание газа не может быть меньше предыдущего!");
-    }
-}
+  </script>
 
-   </script>
 </body>
 </html>

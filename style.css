@@ -2,7 +2,12 @@
     margin: 0;
     padding: 0;
 }
-
+body{
+    margin: 0 auto;
+    max-width: 1500px;
+    font-family: serif;
+    font-size: 20px;
+}
 h1{
     text-align: center;
     font-size: 30px;
@@ -10,15 +15,13 @@ h1{
 
 img{
     height: 60px;
-    /* transition: all 1s; */
 }
 
 .text{
     text-align: center;
     font-size: 21px;
     font-weight: 500;
-    margin-bottom: -20px;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .hot, .cold, .runoff, .light, .gas {
@@ -26,8 +29,8 @@ img{
     flex-wrap: wrap;
     justify-content: space-between;
     background-color: rgb(250, 240, 224);
-    margin: 45px 35px;
-    /* align-items: center; */
+    margin: 35px 35px 45px;
+    align-items: baseline;
 }
 
 .hot {
@@ -98,17 +101,20 @@ div>:nth-child(1)>input{
 
 div>:nth-child(2){
     width: 310px;
-    margin-top: 12px;
 }
 
 div>:nth-child(3){
     width: 150px;
-    margin-top: 12px;
 }
 
 div>:nth-child(4){
     width: 230px;
-    margin-top: 12px;
+}
+
+/* убрать стрелочки */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; 
 }
 
 input[type="number"] {
@@ -117,9 +123,9 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+input[type="number"]:hover{
+    appearance: none;
+    -moz-appearance: textfield;
 }
 
 #rateHot, #rateCold, #rateRunoff, #rateLight, #rateGas {
@@ -134,56 +140,86 @@ input::-webkit-inner-spin-button {
 .btn{
     display: flex;
     justify-content: center;
-    margin-top: -5px;
     margin-bottom: 40px;
-    margin-left: 15%;
+    gap: 20px;
 }
 
 button{
-    height: 50px;
-    width: 220px;
     color: rgb(32, 174, 32);
     background-color: white;
     font-size: 28px;
-    margin-right: 20px;
+    padding: 7px;
     border-radius: 5px;
     box-shadow: 5px 5px 12px gray; 
+    /* margin-right: 20px; */
 }
 
 #sum{
-    opacity: 0;
+    width: fit-content;
+    display: none;
     color: rgb(32, 174, 32);
     font-size: 38px;
     margin-top: 5px;
 }
 
-@media screen and (max-width:864px){
 
+@media screen and (min-width:2000px){
+    h1{
+        margin-top: 200px;
+    }
+}
+
+@media screen and (max-width:864px){
+    .text{
+        margin-top: 0px;
+    }
     div>:nth-child(2){
         width: 435px;
     }
-
     div>:nth-child(3){
-        width: 150px;
         margin-right: 260px;
     }
-
     .hot, .cold, .runoff, .light, .gas {
-        margin: 50px 0px 50px  5px;
+        margin: 20px 20px 30px;
     }
-
-    button{line-height: 22px;
+    button{
+        line-height: 22px;
+        font-size: 26px;
+        padding: 5px;
     }
 }
 
-@media screen and (max-width:644px){
+@media screen and (max-width:679px){
     div>:nth-child(3){
         margin-right: 50px;
     } 
+    h1{
+        font-size: 28px;
+    }
+    .text{
+        font-size: 19px;
+    }
+    .hot, .cold, .runoff, .light, .gas {
+        margin: 20px 5px 30px;
+    }
 }
 
 @media screen and (max-width:400px){
+    h1{
+        font-size: 23px;
+    }
+    img{
+        height: 50px;
+    }
     div>:nth-child(3){
         margin-right: 17px;
+    }
+    .btn{
+        gap: 15px;
+    }
+    button{
+        font-size: 24px;
+        padding: 3px;
+        width: min-content;
     }
 }
