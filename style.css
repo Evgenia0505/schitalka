@@ -8,11 +8,11 @@ body{
     font-family: serif;
     font-size: 20px;
 }
+
 h1{
     text-align: center;
     font-size: 30px;
 }
-
 img{
     height: 60px;
 }
@@ -66,22 +66,18 @@ img{
     content: "\1F6C0";
     font-size: 30px;
 }
-
 .cold>:nth-child(1)::before{
     content: "\1F4A7";
     font-size: 30px;
 }
-
 .runoff>:nth-child(1)::before{
     content: "\1FAA0";
     font-size: 30px;
 }
-
 .light>:nth-child(1)::before{
     content: "\1F4A1";
     font-size: 30px;
 }
-
 .gas>:nth-child(1)::before{
     content:url(images/gas.png);
     position: relative;
@@ -118,12 +114,15 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
+    font-size: 19px;
     float: right;
     width: 90px;
+    appearance: auto;
     -moz-appearance: textfield;
 }
 
-input[type="number"]:hover{
+input[type="number"]:hover,
+input[type="number"]:focus {
     appearance: none;
     -moz-appearance: textfield;
 }
@@ -151,7 +150,6 @@ button{
     padding: 7px;
     border-radius: 5px;
     box-shadow: 5px 5px 12px gray; 
-    /* margin-right: 20px; */
 }
 
 #sum{
